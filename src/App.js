@@ -56,7 +56,7 @@ function App() {
       })
   }
 
-  function setEditedItem(item) {
+  function setEdit(item) {
     setEditItem(item);
     setEditDescription(item?.description)
     setEditAmount(item?.amount);
@@ -75,7 +75,7 @@ function App() {
         items[(items.findIndex(item => item.id === editItem.id))].amount = editAmount;
         setItems
           ([...items]);
-        setEditedItem(null);
+        setEditItem(null);
       }).catch(error => {
         alert(error.response ? error.response.data.error : error);
       })
@@ -103,14 +103,14 @@ function App() {
                 <input value={editDescription} onChange={e => setEditDescription(e.target.value)} />
                 <input value={editAmount} onChange={e => setEditAmount(e.target.value)} />
                 <button>Save</button>
-                <button type="button" onClick={() => setEditItem(null)}>Cancel</button>
+                <button type="button" onClick={() => setEdit(null)}>Cancel</button>
               </form>
             }
             <button className="delete" onClick={() => remove(item.id)}>
               Delete
             </button>
             {editItem === null &&
-              <button className="edit" onClick={() => setEditedItem(item)}>
+              <button className="edit" onClick={() => setEdit(item)}>
                 Edit
               </button>
             }
