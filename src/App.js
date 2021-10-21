@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 
@@ -7,7 +6,6 @@ const URL = 'http://localhost/shopping-list/';
 function App() {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState('');
-  // const [description, setDescription] = useState('')
   const [amount, setAmount] = useState(0)
   const [editItem, setEditItem] = useState(null);
   const [editDescription, setEditDescription] = useState('');
@@ -16,7 +14,7 @@ function App() {
   useEffect(() => {
     axios.get(URL + 'index.php')
       .then((response) => {
-        
+
         setItems
           (response.data)
       }).catch(error => {
@@ -26,12 +24,12 @@ function App() {
 
   function add(e) {
     e.preventDefault();
-    const json = JSON.stringify({description : item, amount : amount})
+    const json = JSON.stringify({ description: item, amount: amount })
     axios.post(URL + 'save.php', json, {
       headers: {
         'Content-Type': 'application/json'
       }
-      
+
     })
       .then((response) => {
         setItems
@@ -90,17 +88,32 @@ function App() {
       <form onSubmit={add}>
         <label>New item</label>
         <input value={item} placeholder="type product" onChange={e => setItem(e.target.value)} />
-        <input value={amount} placeholder = "type amount" onChange={e => setAmount(e.target.value)} />
+        <input value={amount} placeholder="type amount" onChange={e => setAmount(e.target.value)} />
         <button>Save</button>
       </form>
       <ol>
         {items?.map(item => (
           <li key={item.id}>
-            <span className ="desc">{item.description}</span>
-            <span className ="amount">{item.amount} pieces</span>
+            <span class="desc">{editItem?.id !== item.id && 
+            item.description}</span>
+            <span class="amount">{editItem?.id !== item.id && 
+            item.amount}  </span>    
+            {editItem?.id === item.id &&
+              <form onSubmit={update}>
+                <input value={editDescription} onChange={e => setEditDescription(e.target.value)} />
+                <input value={editAmount} onChange={e => setEditAmount(e.target.value)} />
+                <button>Save</button>
+                <button type="button" onClick={() => setEditItem(null)}>Cancel</button>
+              </form>
+            }
             <button className="delete" onClick={() => remove(item.id)}>
               Delete
             </button>
+            {editItem === null &&
+              <button className="edit" onClick={() => setEditedItem(item)}>
+                Edit
+              </button>
+            }
           </li>
         ))}
       </ol>
@@ -110,27 +123,6 @@ function App() {
 
 export default App;
 
-  {/* {editItem?.id !== item.id &&
-              item.description
-            }
-            {editItem?.id !== item.id &&
-              item.amount
-            }
-            {editItem?.id === item.id &&
-              <form onSubmit={update}>
-                <input value={editDescription} onChange={e => setEditDescription(e.target.value)} />
-                <input value={editAmount} onChange={e => setEditAmount(e.target.value)} />
-                <button>Add</button>
-                <button type="button" onClick={() => setEditedItem(null)}>Cancel</button>
-              </form>
-            }
-            <a href="#" className="delete" onClick={() => remove(item.id)}>
-              Delete
-            </a>&nbsp;
-            {editItem === null &&
-              <a className="edit" onClick={() => setEditedItem(item)} href="#">
-                Edit
-              </a>
-            } */}
 
-            
+
+
