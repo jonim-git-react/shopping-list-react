@@ -97,7 +97,7 @@ function App() {
             <span class="desc">{editItem?.id !== item.id && 
             item.description}</span>
             <span class="amount">{editItem?.id !== item.id && 
-            item.amount}  </span>    
+            item.amount} pieces</span>    
             {editItem?.id === item.id &&
               <form onSubmit={update}>
                 <input value={editDescription} onChange={e => setEditDescription(e.target.value)} />

@@ -5,6 +5,7 @@ body {
 }
 
 .container {
+  position:relative;
   max-width: 800px;
   margin: 30px auto;
   overflow: auto;
@@ -41,14 +42,17 @@ padding-left: 10px;
 padding-right:10px;
 }
 
-.amount {
-margin-left:150px;
+span.amount {
+position: absolute;
+right: 225px;
+width: 200px;
 padding-left: 10px;
 padding-right:10px;
 }
 
 .delete {
   float: right;
+  margin-left: 10px;
   
 }
 .edit {
