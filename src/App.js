@@ -5,7 +5,7 @@ const URL = 'http://localhost/shopping-list/';
 
 function App() {
   const [items, setItems] = useState([]);
-  const [item, setItem] = useState('');
+  const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(0)
   const [editItem, setEditItem] = useState(null);
   const [editDescription, setEditDescription] = useState('');
@@ -24,7 +24,7 @@ function App() {
 
   function add(e) {
     e.preventDefault();
-    const json = JSON.stringify({ description: item, amount: amount })
+    const json = JSON.stringify({ description: description, amount: amount })
     axios.post(URL + 'save.php', json, {
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ function App() {
       .then((response) => {
         setItems
           (items => [...items, response.data]);
-        setItem('')
+        setDescription('')
         setAmount('');
       }).catch(error => {
         alert(error.response.data.error)
@@ -81,22 +81,23 @@ function App() {
       })
   }
 
+  
 
   return (
     <div className="container">
       <h3>Shopping list</h3>
       <form onSubmit={add}>
         <label>New item</label>
-        <input value={item} placeholder="type product" onChange={e => setItem(e.target.value)} />
+        <input value={description} placeholder="type product" onChange={e => setDescription(e.target.value)} />
         <input value={amount} placeholder="type amount" onChange={e => setAmount(e.target.value)} />
         <button>Save</button>
       </form>
       <ol>
         {items?.map(item => (
           <li key={item.id}>
-            <span class="desc">{editItem?.id !== item.id && 
+            <span className="desc">{editItem?.id !== item.id && 
             item.description}</span>
-            <span class="amount">{editItem?.id !== item.id && 
+            <span className="amount">{editItem?.id !== item.id && 
             item.amount} pieces</span>    
             {editItem?.id === item.id &&
               <form onSubmit={update}>
